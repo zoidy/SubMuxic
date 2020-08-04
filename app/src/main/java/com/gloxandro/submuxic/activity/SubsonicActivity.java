@@ -82,10 +82,6 @@ import com.gloxandro.submuxic.util.UserUtil;
 import com.gloxandro.submuxic.util.Util;
 import com.gloxandro.submuxic.view.UpdateView;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.vending.licensing.AESObfuscator;
-import com.google.android.vending.licensing.LicenseChecker;
-import com.google.android.vending.licensing.LicenseCheckerCallback;
-import com.google.android.vending.licensing.ServerManagedPolicy;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -93,7 +89,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.Manifest.permission;
-import static com.gloxandro.submuxic.BuildConfig.PLAYSTORE_LICENSE_KEY;
 
 public class SubsonicActivity extends AppCompatActivity implements OnItemSelectedListener {
 	private static final String TAG = SubsonicActivity.class.getSimpleName();
@@ -109,8 +104,6 @@ public class SubsonicActivity extends AppCompatActivity implements OnItemSelecte
 			34
 	};
 
-	private LicenseChecker mChecker;
-	private LicenseCheckerCallback mLicenseCheckerCallback;
 	boolean licensed;
 	boolean checkingLicense;
 	boolean didCheck;
@@ -163,9 +156,7 @@ public class SubsonicActivity extends AppCompatActivity implements OnItemSelecte
 		setUncaughtExceptionHandler();
 		applyTheme();
 		super.onCreate(bundle);
-		String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-		mLicenseCheckerCallback = new MyLicenseCheckerCallback();
-		mChecker = new LicenseChecker(getApplicationContext(), new ServerManagedPolicy(this, new AESObfuscator(SALT, getPackageName(), deviceId)), PLAYSTORE_LICENSE_KEY);
+		String deviceId = "0";
 		sInstance = this;
 		CustomActionbar();
 		DownloadService.startService(this);
@@ -210,69 +201,6 @@ public class SubsonicActivity extends AppCompatActivity implements OnItemSelecte
 		}
 	}
 
-	private class MyLicenseCheckerCallback implements LicenseCheckerCallback {
-
-		@Override
-		public void allow(int reason) {
-			// TODO Auto-generated method stub
-			if (isFinishing()) {
-				// Don't update UI if Activity is finishing.
-				return;
-			}
-			Log.i("License","Accepted!");
-
-			//You can do other things here, like saving the licensed status to a
-			//SharedPreference so the app only has to check the license once.
-
-			licensed = true;
-			checkingLicense = false;
-			didCheck = true;
-
-		}
-
-		@SuppressWarnings("deprecation")
-		@Override
-		public void dontAllow(int reason) {
-			// TODO Auto-generated method stub
-			if (isFinishing()) {
-				// Don't update UI if Activity is finishing.
-				return;
-			}
-			Log.i("License","Denied!");
-			Log.i("License","Reason for denial: "+reason);
-
-			//You can do other things here, like saving the licensed status to a
-			//SharedPreference so the app only has to check the license once.
-
-			licensed = false;
-			checkingLicense = false;
-			didCheck = true;
-
-			showDialog(0);
-
-		}
-
-		@SuppressWarnings("deprecation")
-		@Override
-		public void applicationError(int reason) {
-			// TODO Auto-generated method stub
-			Log.i("License", "Error: " + reason);
-			if (isFinishing()) {
-				// Don't update UI if Activity is finishing.
-				return;
-			}
-			licensed = true;
-			checkingLicense = false;
-			didCheck = false;
-
-			showDialog(0);
-		}
-
-
-	}
-
-
-
 	protected Dialog onCreateDialog(int id) {
 		// We have only one dialog.
 		return new AlertDialog.Builder(this)
@@ -315,7 +243,7 @@ public class SubsonicActivity extends AppCompatActivity implements OnItemSelecte
 		checkingLicense = true;
 		setProgressBarIndeterminateVisibility(true);
 
-		mChecker.checkAccess(mLicenseCheckerCallback);
+		licensed=true;
 	}
 
 

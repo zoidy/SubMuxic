@@ -1,11 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
-def license() {
-    Properties properties = new Properties()
-    properties.load(project.rootProject.file('local.properties').newDataInputStream())
-    return properties.getProperty("PLAYSTORE_LICENSE_KEY");
-}
+
 android {
     compileSdkVersion 29
     lintOptions {
@@ -18,7 +14,6 @@ android {
         targetSdkVersion 29
         versionCode 16
         versionName '2.6'
-        buildConfigField "String", "PLAYSTORE_LICENSE_KEY", "\""+license()+"\""
         buildTypes {
             release {
                 minifyEnabled false
@@ -37,7 +32,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:17.2.2'
     implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta01'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation project(':app:lvl_library')
     implementation 'androidx.viewpager:viewpager:1.0.0'
     implementation "androidx.recyclerview:recyclerview:${versions.androidxRecyclerView}"
     implementation 'com.google.android.material:material:1.1.0'
