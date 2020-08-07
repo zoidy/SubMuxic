@@ -407,6 +407,9 @@
 	<string name="settings.keep_played_count_one">Keep last played song</string>
 	<string name="settings.keep_played_count_two">Keep 2 played songs</string>
 	<string name="settings.keep_played_count_three">Keep 3 played songs</string>
+	<string name="settings.album_art_image_view_crop">Crop</string>
+	<string name="settings.album_art_image_view_center">Center</string>
+	<string name="settings.album_art_image_view_stretch">Stretch</string>
 	<string name="settings.disconnect_pause_title">Pause on Disconnect</string>
 	<string name="settings.disconnect_pause_both">Pause</string>
 	<string name="settings.disconnect_pause_neither">Do Nothing</string>

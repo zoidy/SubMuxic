@@ -119,7 +119,14 @@
 			android:summary="@string/settings.large_album_art_summary"
 			android:key="largeAlbumArt"
 			android:defaultValue="true"/>
-	</PreferenceCategory>
+
+		<ListPreference
+			android:title="Album Art Display Mode"
+			android:key="albumArtImageView"
+			android:defaultValue="0"
+			android:entryValues="@array/albumArtImageViewValues"
+			android:entries="@array/albumArtImageViewNames"/>
+</PreferenceCategory>
 
 	<PreferenceCategory
 		android:title="@string/settings.menu_options.title">

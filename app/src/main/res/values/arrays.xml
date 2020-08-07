@@ -187,6 +187,17 @@
 		<item>@string/settings.keep_played_count_three</item>
 	</string-array>
 
+	<string-array name="albumArtImageViewValues">
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
+	</string-array>
+	<string-array name="albumArtImageViewNames">
+		<item>@string/settings.album_art_image_view_crop</item>
+		<item>@string/settings.album_art_image_view_center</item>
+		<item>@string/settings.album_art_image_view_stretch</item>
+	</string-array>
+
 	<string-array name="disconnectPauseValues">
 		<item>0</item>
 		<item>3</item>

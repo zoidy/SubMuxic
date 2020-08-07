@@ -101,6 +101,7 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 	private String internalSSIDDisplay;
 	private EditTextPreference cacheSize;
 	private ListPreference openToTab;
+	private ListPreference albumArtImageView;
 
 	private int serverCount = 3;
 	private SharedPreferences settings;
@@ -263,6 +264,7 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 		replayGainUntagged = this.findPreference(Constants.PREFERENCES_KEY_REPLAY_GAIN_UNTAGGED);
 		cacheSize = (EditTextPreference) this.findPreference(Constants.PREFERENCES_KEY_CACHE_SIZE);
 		openToTab = (ListPreference) this.findPreference(Constants.PREFERENCES_KEY_OPEN_TO_TAB);
+		albumArtImageView = (ListPreference) this.findPreference(Constants.PREFERENCES_KEY_ALBUM_ART_IMAGE_VIEW);
 
 		settings = Util.getPreferences(context);
 		serverCount = settings.getInt(Constants.PREFERENCES_KEY_SERVER_COUNT, 1);
@@ -387,6 +389,7 @@ public class SettingsFragment extends PreferenceCompatFragment implements Shared
 
 		if(theme != null) {
 			theme.setSummary(theme.getEntry());
+			albumArtImageView.setSummary(albumArtImageView.getEntry());
 		}
 		if(openToTab != null) {
 			openToTab.setSummary(openToTab.getEntry());

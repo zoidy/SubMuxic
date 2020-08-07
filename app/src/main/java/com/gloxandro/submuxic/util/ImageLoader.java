@@ -37,6 +37,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.content.SharedPreferences;
 
 import androidx.collection.LruCache;
 
@@ -50,6 +51,8 @@ import com.gloxandro.submuxic.domain.ServerInfo;
 import com.gloxandro.submuxic.service.MusicService;
 import com.gloxandro.submuxic.service.MusicServiceFactory;
 import com.gloxandro.submuxic.util.compat.RemoteControlClientBase;
+import com.gloxandro.submuxic.util.Util;
+import com.gloxandro.submuxic.util.Constants;
 
 /**
  * Asynchronous loading of images, with caching.
@@ -73,6 +76,7 @@ public class ImageLoader {
 	private final int avatarSizeDefault;
 	private boolean clearingCache = false;
 	private final int cacheSize;
+	private SharedPreferences prefs;
 
 	private final static int[] COLORS = {0xFF33B5E5, 0xFFAA66CC, 0xFF99CC00, 0xFFFFBB33, 0xFFFF4444};
 
@@ -88,6 +92,7 @@ public class ImageLoader {
 		DisplayMetrics metrics = context.getResources().getDisplayMetrics();
 		imageSizeLarge = Math.round(Math.min(metrics.widthPixels, metrics.heightPixels));
 		avatarSizeDefault = context.getResources().getDrawable(R.drawable.ic_social_person).getIntrinsicHeight();
+		prefs=Util.getPreferences(context);
 
 		cache = new LruCache<String, Bitmap>(cacheSize) {
 			@Override
@@ -367,6 +372,19 @@ public class ImageLoader {
 			textView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
 		} else if (view instanceof ImageView) {
 			final ImageView imageView = (ImageView) view;
+			int viewPref=Integer.parseInt(prefs.getString(Constants.PREFERENCES_KEY_ALBUM_ART_IMAGE_VIEW,"0"));
+			switch (viewPref) {
+				case 0:
+					imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+					break;
+				case 1:
+					imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+					break;
+				case 2:
+					imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+					break;
+			}
+
 			if (crossfade && drawable != null) {
 				Drawable existingDrawable = imageView.getDrawable();
 				if (existingDrawable == null) {
