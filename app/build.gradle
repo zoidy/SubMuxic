@@ -1,9 +1,4 @@
 apply plugin: 'com.android.application'
-def license() {
-    Properties properties = new Properties()
-    properties.load(project.rootProject.file('local.properties').newDataInputStream())
-    return properties.getProperty("PLAYSTORE_LICENSE_KEY");
-}
 def castid() {
     Properties properties = new Properties()
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
@@ -21,7 +16,6 @@ android {
         targetSdkVersion 30
         versionCode 27
         versionName '3.7'
-        buildConfigField "String", "PLAYSTORE_LICENSE_KEY", "\""+license()+"\""
         buildConfigField "String", "CAST_ID", "\""+castid()+"\""
         buildTypes {
             release {
@@ -43,7 +37,6 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation project(':app:lvl_library')
     implementation 'androidx.viewpager:viewpager:1.0.0'
     implementation "androidx.recyclerview:recyclerview:${versions.androidxRecyclerView}"
     implementation 'com.google.android.material:material:1.2.1'
